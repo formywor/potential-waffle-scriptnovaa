@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — ScriptNova Brand</title>
+  <link rel="stylesheet" href="./assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>scriptnovaa.com · Official hub</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill accent" href="./brand.html">Brand</a>
+        <a class="pill" href="./products.html">What We Own</a>
+        <a class="pill" href="./ownership.html">Ownership</a>
+        <a class="pill" href="./admin/login.html">Admin Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="hero-grid">
+      <div class="card">
+        <div class="card-pad">
+          <div class="kicker">ScriptNova Ecosystem</div>
+          <div class="title">A network of apps, tools, and experiences — built under one brand.</div>
+          <p class="sub">
+            ScriptNova is a brand focused on creating modern digital products: apps, web platforms, tools,
+            and interactive experiences. This site is the public overview for what ScriptNova is and what it owns.
+          </p>
+
+          <div class="glow-line"></div>
+
+          <div class="grid-3">
+            <div class="mini">
+              <h3>What we do</h3>
+              <p>Build apps, platforms, and tools with clean UI, strong branding, and fast iteration.</p>
+            </div>
+            <div class="mini">
+              <h3>What we ship</h3>
+              <p>Consumer apps, internal dashboards, web services, and product ecosystems.</p>
+            </div>
+            <div class="mini">
+              <h3>Our standard</h3>
+              <p>Polished design, clear ownership, and transparent product pages for the community.</p>
+            </div>
+          </div>
+
+          <div class="badges">
+            <span class="badge">ScriptNova AI</span>
+            <span class="badge">Web Products</span>
+            <span class="badge">Tools & Platforms</span>
+            <span class="badge">Brand Hub</span>
+          </div>
+
+          <div class="row" style="margin-top:16px">
+            <a class="btn primary" href="./products.html">Explore what ScriptNova owns</a>
+            <a class="btn" href="./brand.html">Learn the brand story</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-pad">
+          <div class="kicker">Quick status (demo)</div>
+          <div style="font-size:18px; margin-top:10px; letter-spacing:.02em;">
+            Service availability
+          </div>
+          <p class="sub" style="margin-top:8px;">
+            The “Emergency Shutdown” in Admin is a <b>front-end demo</b> that can block public pages by showing a maintenance overlay.
+          </p>
+
+          <div class="hr"></div>
+
+          <div class="mini">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div>
+                <div class="label" style="margin:0;">server status</div>
+                <div id="serverStatus" style="font-size:18px; margin-top:6px;">—</div>
+              </div>
+              <span id="serverPill" class="chip">—</span>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="mini">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div>
+                <div class="label" style="margin:0;">app status</div>
+                <div id="appStatus" style="font-size:18px; margin-top:6px;">—</div>
+              </div>
+              <span id="appPill" class="chip">—</span>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:14px">
+            <a class="btn" href="./admin/login.html">Open Admin Console</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA · Public brand hub for ScriptNova</div>
+  </div>
+
+  <!-- Maintenance overlay (shown when server is DOWN) -->
+  <div class="maintenance" id="maintenanceOverlay">
+    <div class="panel">
+      <div class="top">
+        <h2>Maintenance Mode</h2>
+        <p>ScriptNova services are temporarily unavailable.</p>
+      </div>
+      <div class="body">
+        <div class="codebox" data-codebox></div>
+        <div class="row end" style="margin-top:14px">
+          <a class="btn" href="./admin/login.html">Admin Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast"></div>
+
+  <script type="module">
+    import "./assets/app.js";
+    const y = document.querySelector("#year");
+    if(y) y.textContent = new Date().getFullYear();
+
+    const serverDown = window.SN.isServerDown();
+    const appDown = window.SN.isAppDown();
+
+    const serverStatus = document.querySelector("#serverStatus");
+    const serverPill = document.querySelector("#serverPill");
+    if(serverStatus && serverPill){
+      serverStatus.textContent = serverDown ? "DOWN" : "UP";
+      serverPill.textContent = serverDown ? "EVERYTHING IS BLOCKED" : "ONLINE";
+      serverPill.style.borderColor = serverDown ? "rgba(255,59,92,.35)" : "rgba(52,255,154,.35)";
+    }
+
+    const appStatus = document.querySelector("#appStatus");
+    const appPill = document.querySelector("#appPill");
+    if(appStatus && appPill){
+      appStatus.textContent = appDown ? "DOWN" : "WORKING";
+      appPill.textContent = appDown ? "APP DISABLED" : "ACTIVE";
+      appPill.style.borderColor = appDown ? "rgba(255,207,90,.35)" : "rgba(52,211,255,.35)";
+    }
+
+    window.SN.ensureMaintenanceOverlay();
+  </script>
+</body>
+</html>

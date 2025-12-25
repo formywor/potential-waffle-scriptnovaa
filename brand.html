@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — Brand</title>
+  <link rel="stylesheet" href="./assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Brand profile</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="./index.html">Home</a>
+        <a class="pill accent" href="./brand.html">Brand</a>
+        <a class="pill" href="./products.html">What We Own</a>
+        <a class="pill" href="./ownership.html">Ownership</a>
+        <a class="pill" href="./admin/login.html">Admin Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="card">
+      <div class="card-pad">
+        <div class="kicker">What is ScriptNova?</div>
+        <div class="title">ScriptNova is a product brand — built to ship apps, tools, and platforms.</div>
+        <p class="sub">
+          ScriptNova focuses on shipping modern digital experiences with strong design, clear branding, and
+          continuously improving systems. ScriptNovaA (this site) is the public hub for the brand.
+        </p>
+
+        <div class="glow-line"></div>
+
+        <div class="split">
+          <div class="mini">
+            <h3>Brand values</h3>
+            <p>
+              • Build fast, polish hard<br/>
+              • Make things easy to understand<br/>
+              • Keep features organized into real products<br/>
+              • Be transparent about ownership and official sources
+            </p>
+          </div>
+          <div class="mini">
+            <h3>What we create</h3>
+            <p>
+              Apps, web platforms, internal dashboards, and product ecosystems — including public-facing tools
+              and community experiences.
+            </p>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="grid-3">
+          <div class="mini">
+            <h3>Identity</h3>
+            <p>ScriptNova is a brand name used across multiple products and services.</p>
+          </div>
+          <div class="mini">
+            <h3>Quality</h3>
+            <p>We aim for clean UX, secure workflows, and strong reliability practices.</p>
+          </div>
+          <div class="mini">
+            <h3>Transparency</h3>
+            <p>This site is designed to clearly show what ScriptNova owns and who manages it.</p>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:16px">
+          <a class="btn primary" href="./products.html">See what ScriptNova owns</a>
+          <a class="btn" href="./ownership.html">View ownership info</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="maintenance" id="maintenanceOverlay">
+    <div class="panel">
+      <div class="top">
+        <h2>Maintenance Mode</h2>
+        <p>ScriptNova services are temporarily unavailable.</p>
+      </div>
+      <div class="body">
+        <div class="codebox" data-codebox></div>
+        <div class="row end" style="margin-top:14px">
+          <a class="btn" href="./admin/login.html">Admin Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast"></div>
+  <script type="module">
+    import "./assets/app.js";
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    window.SN.ensureMaintenanceOverlay();
+  </script>
+</body>
+</html>

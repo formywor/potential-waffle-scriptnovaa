@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — Ownership</title>
+  <link rel="stylesheet" href="./assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Ownership & Admin</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="./index.html">Home</a>
+        <a class="pill" href="./brand.html">Brand</a>
+        <a class="pill" href="./products.html">What We Own</a>
+        <a class="pill accent" href="./ownership.html">Ownership</a>
+        <a class="pill" href="./admin/login.html">Admin Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="card">
+      <div class="card-pad">
+        <div class="kicker">Public Ownership Info</div>
+        <div class="title">Who owns ScriptNovaA?</div>
+        <p class="sub">
+          ScriptNovaA is the official public hub for ScriptNova. Ownership and founder controls are managed by:
+        </p>
+
+        <div class="glow-line"></div>
+
+        <div class="split">
+          <div class="mini">
+            <h3>Founder / Owner</h3>
+            <p>
+              <b>iii_dev</b><br/>
+              Founder-level controls include emergency actions and founder-only settings in the Admin Console.
+            </p>
+            <div class="badges">
+              <span class="badge">Founder</span>
+              <span class="badge">Primary Admin</span>
+            </div>
+          </div>
+
+          <div class="mini">
+            <h3>Admin Profiles</h3>
+            <p>
+              Approved admins can access the Admin Console with their profile + PIN.<br/>
+              • Kaysofs<br/>
+              • uliseskeepklickin<br/>
+              • n.sakks
+            </p>
+            <div class="badges">
+              <span class="badge">Admin Access</span>
+              <span class="badge">PIN Protected</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="mini">
+          <h3>Admin Console</h3>
+          <p>
+            The Admin Console on this demo site can toggle maintenance mode (Emergency Shutdown) which blocks public pages.
+            This is a <b>front-end simulation</b> intended for your website UI — it does not actually control real servers unless you wire it up later.
+          </p>
+          <div class="row" style="margin-top:12px">
+            <a class="btn primary" href="./admin/login.html">Go to Admin Login</a>
+            <a class="btn" href="./products.html">See what we own</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="maintenance" id="maintenanceOverlay">
+    <div class="panel">
+      <div class="top">
+        <h2>Maintenance Mode</h2>
+        <p>ScriptNova services are temporarily unavailable.</p>
+      </div>
+      <div class="body">
+        <div class="codebox" data-codebox></div>
+        <div class="row end" style="margin-top:14px">
+          <a class="btn" href="./admin/login.html">Admin Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast"></div>
+  <script type="module">
+    import "./assets/app.js";
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    window.SN.ensureMaintenanceOverlay();
+  </script>
+</body>
+</html>

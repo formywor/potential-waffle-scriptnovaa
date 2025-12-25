@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — Admin Dashboard</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Admin dashboard</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="../index.html">Public Site</a>
+        <a class="pill accent" href="./dashboard.html">Dashboard</a>
+        <a class="pill" href="./settings.html">Settings</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="card welcome-wrap">
+      <div class="welcome-bg"></div>
+      <div class="card-pad welcome-content">
+        <div data-admin-header></div>
+
+        <div class="kicker" data-pop>Welcome</div>
+        <div class="big-welcome" data-pop>
+          Welcome, <span class="name-gradient" data-welcome-name>Admin</span>
+        </div>
+        <p class="sub" data-pop>
+          Manage ScriptNovaA controls. Emergency actions below are demo toggles (local only) unless connected to real servers later.
+        </p>
+
+        <div class="glow-line"></div>
+
+        <div class="grid-3" data-pop>
+          <div class="mini">
+            <h3>server status</h3>
+            <p style="margin-top:6px;">
+              <b id="serverStatus">—</b><br/>
+              <span id="serverMsg" style="color:rgba(255,255,255,.68)"></span>
+            </p>
+          </div>
+          <div class="mini">
+            <h3>app status</h3>
+            <p style="margin-top:6px;">
+              <b id="appStatus">—</b><br/>
+              <span id="appMsg" style="color:rgba(255,255,255,.68)"></span>
+            </p>
+          </div>
+          <div class="mini">
+            <h3>access level</h3>
+            <p style="margin-top:6px;">
+              <b id="roleText">—</b><br/>
+              <span style="color:rgba(255,255,255,.68)">Founder-only settings appear in Settings.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="split">
+          <div class="mini" data-pop>
+            <h3>Emergency Shutdown</h3>
+            <p>
+              Toggles maintenance mode for the public site.<br/>
+              If SERVER is DOWN: <b>EVERYTHING IS BLOCKED</b>.
+            </p>
+            <div class="row" style="margin-top:12px">
+              <button class="btn danger" id="toggleServerBtn">Toggle Server Shutdown</button>
+              <a class="btn" href="../index.html">Open Public Site</a>
+            </div>
+          </div>
+
+          <div class="mini" data-pop>
+            <h3>Shutdown App (Founder Only)</h3>
+            <p id="founderNote" style="margin-top:6px;">
+              must be logged in as iii_dev
+            </p>
+            <div class="row" style="margin-top:12px">
+              <button class="btn" id="toggleAppBtn">Toggle App Shutdown</button>
+              <a class="btn primary" href="./settings.html">Admin Settings</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="mini" data-pop>
+          <h3>Founder-only settings</h3>
+          <p>
+            Founder is <b>iii_dev</b>. Founder-only controls appear in Settings and include elevated management options.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="toast"></div>
+
+  <script type="module">
+    import "../assets/app.js";
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+
+    const session = window.SN.requireAdmin();
+    if(!session) throw new Error("redirecting");
+
+    window.SN.renderAdminHeader(session);
+    window.SN.welcomeAnimation(session.username);
+
+    const isFounder = session.username === "iii_dev";
+    const roleText = document.querySelector("#roleText");
+    roleText.textContent = isFounder ? "Founder (iii_dev)" : "Admin";
+
+    const serverStatus = document.querySelector("#serverStatus");
+    const serverMsg = document.querySelector("#serverMsg");
+    const appStatus = document.querySelector("#appStatus");
+    const appMsg = document.querySelector("#appMsg");
+
+    function refresh(){
+      const sDown = window.SN.isServerDown();
+      const aDown = window.SN.isAppDown();
+
+      serverStatus.textContent = sDown ? "DOWN" : "UP";
+      serverMsg.textContent = sDown ? "EVERYTHING IS BLOCKED" : "Online";
+
+      // You requested: app status: WORKING (default)
+      appStatus.textContent = aDown ? "DOWN" : "WORKING";
+      appMsg.textContent = aDown ? "App disabled (demo)" : "App status is WORKING";
+    }
+    refresh();
+
+    // Emergency shutdown toggle (all admins can toggle in this demo)
+    document.querySelector("#toggleServerBtn").addEventListener("click", ()=>{
+      const nowDown = window.SN.emergencyShutdownToggle();
+      window.SN.toast(nowDown ? "SERVER DOWN — everything is blocked." : "SERVER UP — public site restored.");
+      refresh();
+    });
+
+    // App shutdown: only iii_dev
+    const toggleAppBtn = document.querySelector("#toggleAppBtn");
+    const founderNote = document.querySelector("#founderNote");
+
+    if(!isFounder){
+      toggleAppBtn.disabled = true;
+      founderNote.innerHTML = `<b>must be logged in as iii_dev</b>`;
+    }else{
+      founderNote.textContent = "Founder access confirmed.";
+      toggleAppBtn.classList.add("danger");
+      toggleAppBtn.addEventListener("click", ()=>{
+        const res = window.SN.shutdownAppFounderOnly(session);
+        if(!res.ok){
+          window.SN.toast(res.msg);
+          return;
+        }
+        window.SN.toast(res.newState ? "APP DOWN (demo)" : "APP WORKING (demo)");
+        refresh();
+      });
+    }
+  </script>
+</body>
+</html>

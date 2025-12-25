@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — What We Own</title>
+  <link rel="stylesheet" href="./assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Products & Ownership</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="./index.html">Home</a>
+        <a class="pill" href="./brand.html">Brand</a>
+        <a class="pill accent" href="./products.html">What We Own</a>
+        <a class="pill" href="./ownership.html">Ownership</a>
+        <a class="pill" href="./admin/login.html">Admin Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="card">
+      <div class="card-pad">
+        <div class="kicker">Public Catalog</div>
+        <div class="title">Official ScriptNova products and brand-owned projects</div>
+        <p class="sub">
+          This page is public so people can understand what ScriptNova owns/makes.
+          Update the list anytime as your ecosystem grows.
+        </p>
+
+        <div class="glow-line"></div>
+
+        <div class="grid-3">
+          <div class="mini">
+            <h3>ScriptNova AI</h3>
+            <p>
+              An official ScriptNova app (App Store).<br/>
+              • AI features + product experience<br/>
+              • Managed under ScriptNova ownership
+            </p>
+            <div class="badges">
+              <span class="badge">Owned</span>
+              <span class="badge">App</span>
+              <span class="badge">Official</span>
+            </div>
+          </div>
+
+          <div class="mini">
+            <h3>ScriptNova Tools</h3>
+            <p>
+              A growing group of tools and services under ScriptNova branding.<br/>
+              • Dashboards<br/>
+              • Web utilities<br/>
+              • Internal systems
+            </p>
+            <div class="badges">
+              <span class="badge">Owned</span>
+              <span class="badge">Tools</span>
+            </div>
+          </div>
+
+          <div class="mini">
+            <h3>Platforms & Experiences</h3>
+            <p>
+              Larger experiences that connect multiple features into one ecosystem.<br/>
+              • Community features<br/>
+              • Service integrations<br/>
+              • Ongoing expansions
+            </p>
+            <div class="badges">
+              <span class="badge">Ecosystem</span>
+              <span class="badge">Platform</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="split">
+          <div class="mini">
+            <h3>What we build (examples)</h3>
+            <p>
+              • Mobile apps (iOS)<br/>
+              • Websites + web apps<br/>
+              • Service dashboards<br/>
+              • Subscription experiences<br/>
+              • Branded product suites
+            </p>
+          </div>
+          <div class="mini">
+            <h3>Notice</h3>
+            <p>
+              This site lists official ScriptNova properties. If you see something claiming to be ScriptNova
+              but not listed here, treat it as unofficial.
+            </p>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:16px">
+          <a class="btn primary" href="./ownership.html">View who owns ScriptNovaA</a>
+          <a class="btn" href="./admin/login.html">Admin Console</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="maintenance" id="maintenanceOverlay">
+    <div class="panel">
+      <div class="top">
+        <h2>Maintenance Mode</h2>
+        <p>ScriptNova services are temporarily unavailable.</p>
+      </div>
+      <div class="body">
+        <div class="codebox" data-codebox></div>
+        <div class="row end" style="margin-top:14px">
+          <a class="btn" href="./admin/login.html">Admin Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast"></div>
+  <script type="module">
+    import "./assets/app.js";
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    window.SN.ensureMaintenanceOverlay();
+  </script>
+</body>
+</html>

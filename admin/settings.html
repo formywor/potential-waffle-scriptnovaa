@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — Admin Settings</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Admin settings</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="../index.html">Public Site</a>
+        <a class="pill" href="./dashboard.html">Dashboard</a>
+        <a class="pill accent" href="./settings.html">Settings</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="card">
+      <div class="card-pad">
+        <div data-admin-header></div>
+
+        <div class="kicker">Settings</div>
+        <div class="title" style="font-size:32px;">Admin controls & security</div>
+        <p class="sub">
+          Update your PIN and view founder-only settings. (Front-end demo using localStorage)
+        </p>
+
+        <div class="glow-line"></div>
+
+        <div class="split">
+          <div class="mini">
+            <h3>Change your PIN</h3>
+            <p class="sub" style="margin-top:8px;">
+              PIN must be <b>4–8 digits</b>.
+            </p>
+
+            <div class="hr"></div>
+
+            <div class="label">new pin</div>
+            <input id="newPin" class="input" type="password" inputmode="numeric" placeholder="e.g. 2468"/>
+
+            <div class="row end" style="margin-top:12px">
+              <button class="btn primary" id="savePinBtn">Save PIN</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <h3>Status overview</h3>
+            <div class="hr"></div>
+            <div class="codebox" id="statusBox"></div>
+
+            <div class="row" style="margin-top:12px">
+              <button class="btn danger" id="forceServerUpBtn">Force Server UP</button>
+              <button class="btn ok" id="forceAppWorkingBtn">Force App WORKING</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="mini" id="founderPanel" style="display:none;">
+          <h3>Founder-only settings (iii_dev)</h3>
+          <p class="sub" style="margin-top:8px;">
+            You are logged in as the founder. Add extra controls here later (API keys, real shutdown endpoints, audit logs, etc.).
+          </p>
+
+          <div class="hr"></div>
+
+          <div class="split">
+            <div class="mini">
+              <h3>Admin profiles</h3>
+              <p class="sub" style="margin-top:8px;">
+                View the approved admin profiles and their roles.
+              </p>
+              <div class="codebox" id="usersBox"></div>
+            </div>
+
+            <div class="mini">
+              <h3>Founder note</h3>
+              <p class="sub" style="margin-top:8px;">
+                This site currently uses localStorage. When you connect a backend, keep:
+                <br/>• hashed PINs
+                <br/>• session tokens
+                <br/>• server-side permissions
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row end" style="margin-top:14px">
+          <a class="btn" href="./dashboard.html">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="toast"></div>
+
+  <script type="module">
+    import "../assets/app.js";
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+
+    const session = window.SN.requireAdmin();
+    if(!session) throw new Error("redirecting");
+
+    window.SN.renderAdminHeader(session);
+
+    const isFounder = session.username === "iii_dev";
+    const founderPanel = document.querySelector("#founderPanel");
+    if(isFounder){
+      founderPanel.style.display = "block";
+    }
+
+    const statusBox = document.querySelector("#statusBox");
+    function refreshStatus(){
+      const sDown = window.SN.isServerDown();
+      const aDown = window.SN.isAppDown();
+      statusBox.textContent =
+`server status: ${sDown ? "DOWN" : "UP"}
+${sDown ? "EVERYTHING IS BLOCKED" : "ONLINE"}
+app status: ${aDown ? "DOWN" : "WORKING"}`;
+    }
+    refreshStatus();
+
+    document.querySelector("#savePinBtn").addEventListener("click", ()=>{
+      const newPin = document.querySelector("#newPin").value.trim();
+      const res = window.SN.changePin(session.username, newPin);
+      if(!res.ok){
+        window.SN.toast(res.msg);
+        return;
+      }
+      window.SN.toast("PIN updated.");
+      document.querySelector("#newPin").value = "";
+      if(isFounder) renderUsersBox();
+    });
+
+    document.querySelector("#forceServerUpBtn").addEventListener("click", ()=>{
+      window.SN.setServerDown(false);
+      window.SN.toast("Server forced UP.");
+      refreshStatus();
+    });
+
+    document.querySelector("#forceAppWorkingBtn").addEventListener("click", ()=>{
+      window.SN.setAppDown(false);
+      window.SN.toast("App forced WORKING.");
+      refreshStatus();
+    });
+
+    function renderUsersBox(){
+      const usersBox = document.querySelector("#usersBox");
+      if(!usersBox) return;
+      const users = window.SN.getUsers();
+      usersBox.textContent = users.map(u => `${u.username}  (${u.role})`).join("\n");
+    }
+    if(isFounder) renderUsersBox();
+  </script>
+</body>
+</html>

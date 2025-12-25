@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ScriptNovaA — Admin Login</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <div class="logo"></div>
+        <div>
+          <h1>ScriptNovaA</h1>
+          <small>Admin login</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="pill" href="../index.html">Home</a>
+        <a class="pill" href="../products.html">What We Own</a>
+        <a class="pill accent" href="./login.html">Admin Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero">
+    <div class="hero-grid">
+      <div class="card welcome-wrap">
+        <div class="welcome-bg"></div>
+        <div class="card-pad welcome-content">
+          <div class="kicker" data-pop>Secure Access</div>
+          <div class="big-welcome" data-pop>
+            Admin Console<br/>
+            <span class="name-gradient">ScriptNovaA</span>
+          </div>
+          <p class="sub" data-pop>
+            Select your profile and enter your PIN. Default PIN for all profiles is <b>1234</b> (change it in Settings after login).
+          </p>
+
+          <div class="glow-line"></div>
+
+          <div class="split" data-pop>
+            <div>
+              <div class="label">profile</div>
+              <select id="username" class="input">
+                <option>iii_dev</option>
+                <option>Kaysofs</option>
+                <option>uliseskeepklickin</option>
+                <option>n.sakks</option>
+              </select>
+            </div>
+            <div>
+              <div class="label">pin</div>
+              <input id="pin" class="input" type="password" inputmode="numeric" placeholder="Enter PIN"/>
+            </div>
+          </div>
+
+          <div class="row end" style="margin-top:14px" data-pop>
+            <button class="btn primary" id="loginBtn">Login</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-pad">
+          <div class="kicker">Info</div>
+          <div style="font-size:20px; margin-top:10px;">Admin profiles</div>
+          <p class="sub" style="margin-top:8px;">
+            Founder: <b>iii_dev</b><br/>
+            Admins: Kaysofs, uliseskeepklickin, n.sakks
+          </p>
+
+          <div class="hr"></div>
+
+          <div class="mini">
+            <h3>Security note</h3>
+            <p>
+              This is a front-end demo using <b>localStorage</b>. It’s perfect for UI/testing.
+              When you’re ready, you can wire these actions to real APIs on your server.
+            </p>
+          </div>
+
+          <div class="row" style="margin-top:14px">
+            <a class="btn" href="../index.html">Back to site</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© <span id="year"></span> ScriptNovaA</div>
+  </div>
+
+  <div class="toast"></div>
+
+  <script type="module">
+    import "../assets/app.js";
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+
+    // If already logged in, go dashboard
+    const existing = window.SN.getSession();
+    if(existing) window.location.href = "./dashboard.html";
+
+    const pin = document.querySelector("#pin");
+    const user = document.querySelector("#username");
+    const btn = document.querySelector("#loginBtn");
+
+    function go(){
+      const res = window.SN.login(user.value, pin.value);
+      if(!res.ok){
+        window.SN.toast(res.msg);
+        pin.value = "";
+        pin.focus();
+        return;
+      }
+      // welcome animation then redirect
+      window.SN.toast("Access granted.");
+      setTimeout(()=>window.location.href="./dashboard.html", 420);
+    }
+
+    btn.addEventListener("click", go);
+    pin.addEventListener("keydown", (e)=>{ if(e.key==="Enter") go(); });
+  </script>
+</body>
+</html>
