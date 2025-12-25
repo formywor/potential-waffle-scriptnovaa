@@ -109,7 +109,7 @@ export function renderAdminHeader(session){
         <div>
           <div class="kicker">Admin Console</div>
           <div style="font-size:16px; letter-spacing:.06em; margin-top:2px;">
-            ScriptNovaA Control
+            ScriptNovaa Control
           </div>
         </div>
       </div>
